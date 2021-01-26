@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pioneer Bank</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="login-area">
+      <h2 class="text-center">Welcome To Pioneer Bank</h2>
+      <div class="submit-area">
+        <h4>Login</h4>
+        <input type="text" class="form-control" placeholder="Email" /><br />
+        <input type="password" class="form-control" placeholder="Password" />
+        <br />
+        <button id="login" class="btn btn-success px-3">Enter</button>
+      </div>
+    </div>
+
+    <!-- after login account area -->
+    <div id="account-area">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="deposit status">
+            <h3>Deposite</h3>
+            <h4>$ <span id="deposit-amount">0</span></h4>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="withdraw status">
+            <h3>Withdraw</h3>
+            <h4>$ <span id="withdraw-amount">0</span></h4>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="balance status">
+            <h3>Balance</h3>
+            <h4>$ <span id="balance-amount">0</span></h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <div class="submit-area">
+            <h4>Deposit</h4>
+            <input
+              id="deposit-field"
+              type="text"
+              class="form-control"
+              placeholder="$ amount you want to deposit"
+            />
+            <br />
+            <button id="deposit" class="btn btn-success px-3">Deposit</button>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="submit-area">
+            <h4>Withdraw</h4>
+            <input
+              id="withdraw-field"
+              type="text"
+              class="form-control"
+              placeholder="$ amount you want to withdraw"
+            />
+            <br />
+            <button id="withdraw" class="btn btn-success px-3">Withdraw</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var currentBalance = document.getElementById("balance-amount").innerText;
+      var currentBalanceAmount = parseFloat(currentBalance);
+      const loginbtn = document.getElementById("login");
+      const loginArea = document.getElementById("login-area");
+      const accountArea = document.getElementById("account-area");
+      loginbtn.addEventListener("click", function () {
+        loginArea.style.display = "none";
+        accountArea.style.display = "block";
+      });
+      //   transaction part starts
+      const depositBtn = document.getElementById("deposit");
+
+      depositBtn.addEventListener("click", function () {
+        const depositAmountValue = document.getElementById("deposit-field")
+          .value;
+        const depositAmount = parseFloat(depositAmountValue);
+        const currentDepositValue = document.getElementById("deposit-amount")
+          .innerText;
+        const currentDepositAmount = parseFloat(currentDepositValue);
+        const totalDepositAmount = depositAmount + currentDepositAmount;
+        document.getElementById(
+          "deposit-amount"
+        ).innerText = totalDepositAmount;
+        document.getElementById("deposit-field").value = "";
+        // balance query starts
+        if (depositAmount > 0) {
+          currentBalanceAmount = currentBalanceAmount + depositAmount;
+          document.getElementById(
+            "balance-amount"
+          ).innerText = currentBalanceAmount;
+        }
+      });
+
+      //   withdraw query starts
+      const withdrawBtn = document.getElementById("withdraw");
+      withdrawBtn.addEventListener("click", function () {
+        const withdrawValue = document.getElementById("withdraw-field").value;
+        const withdrawAmount = parseFloat(withdrawValue);
+        const currentWithdrawValue = document.getElementById("withdraw-amount")
+          .innerText;
+        const currentWithdrawAmount = parseFloat(currentWithdrawValue);
+        if (currentBalanceAmount >= withdrawAmount) {
+          const totalWithdrawAmount = withdrawAmount + currentWithdrawAmount;
+          document.getElementById(
+            "withdraw-amount"
+          ).innerText = totalWithdrawAmount;
+          currentBalanceAmount = currentBalanceAmount - withdrawAmount;
+          document.getElementById(
+            "balance-amount"
+          ).innerText = currentBalanceAmount;
+          document.getElementById("withdraw-field").value = "";
+        } else {
+          alert("You Don't Have sufficient funds");
+          document.getElementById("withdraw-field").value = "";
+        }
+      });
+    </script>
+  </body>
+</html>
