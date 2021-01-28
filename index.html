@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <!-- after login account area -->
+    <!-- account area -->
     <div id="account-area">
       <div class="row">
         <div class="col-md-4">
@@ -55,8 +55,7 @@
               id="deposit-field"
               type="text"
               class="form-control"
-              placeholder="$ amount you want to deposit"
-            />
+              placeholder="$ amount you want to deposit" required/>
             <br />
             <button id="deposit" class="btn btn-success px-3">Deposit</button>
           </div>
@@ -99,9 +98,11 @@
           .innerText;
         const currentDepositAmount = parseFloat(currentDepositValue);
         const totalDepositAmount = depositAmount + currentDepositAmount;
-        document.getElementById(
+        if(depositAmount>0){
+         document.getElementById(
           "deposit-amount"
         ).innerText = totalDepositAmount;
+         }
         document.getElementById("deposit-field").value = "";
         // balance query starts
         if (depositAmount > 0) {
@@ -120,7 +121,7 @@
         const currentWithdrawValue = document.getElementById("withdraw-amount")
           .innerText;
         const currentWithdrawAmount = parseFloat(currentWithdrawValue);
-        if (currentBalanceAmount >= withdrawAmount) {
+        if (currentBalanceAmount >= withdrawAmount && withdrawAmount >0) {
           const totalWithdrawAmount = withdrawAmount + currentWithdrawAmount;
           document.getElementById(
             "withdraw-amount"
